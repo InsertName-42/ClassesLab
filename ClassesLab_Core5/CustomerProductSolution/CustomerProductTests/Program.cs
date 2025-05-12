@@ -1,4 +1,5 @@
 ﻿using System;
+//Where to get the classes
 using CustomerProductClasses;
 
 namespace CustomerProductTests
@@ -7,12 +8,13 @@ namespace CustomerProductTests
     {
         static void Main(string[] args)
         {
+            //The Tests, entry point
             TestProductConstructors();
             TestProductToString();
             TestProductPropertyGetters();
             TestProductPropertySetters();
 
-            Console.WriteLine("\n--- Customer Tests ---");
+            Console.WriteLine("\n---Customer Tests---");
             TestCustomerConstructors();
             TestCustomerToString();
             TestCustomerPropertyGetters();
@@ -21,6 +23,7 @@ namespace CustomerProductTests
 
         static void TestProductConstructors()
         {
+            //Verifys the constructors
             Product p1 = new Product();
             Product p2 = new Product(1, "T100", "This is a test product", 100M, 10);
 
@@ -32,6 +35,7 @@ namespace CustomerProductTests
 
         static void TestProductToString()
         {
+            //Test toString
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
 
             Console.WriteLine("Testing Product ToString");
@@ -42,6 +46,7 @@ namespace CustomerProductTests
 
         static void TestProductPropertyGetters()
         {
+            //Test getters
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
 
             Console.WriteLine("Testing Product getters");
@@ -55,6 +60,7 @@ namespace CustomerProductTests
 
         static void TestProductPropertySetters()
         {
+            //Test setters
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
 
             Console.WriteLine("Testing Product setters");
@@ -66,9 +72,10 @@ namespace CustomerProductTests
             Console.WriteLine("Expecting 2, T000, First product, 200.00, 20 " + p1);
             Console.WriteLine();
         }
-
+        // Tests for customer
         static void TestCustomerConstructors()
         {
+            //Test constructors
             Customer c1 = new Customer();
             Customer c2 = new Customer(101, "John", "Doe", "john.doe@example.com", "555-1234");
 
@@ -80,6 +87,7 @@ namespace CustomerProductTests
 
         static void TestCustomerToString()
         {
+            //Test toString
             Customer c1 = new Customer(101, "John", "Doe", "john.doe@example.com", "555-1234");
 
             Console.WriteLine("Testing Customer ToString");
@@ -90,6 +98,7 @@ namespace CustomerProductTests
 
         static void TestCustomerPropertyGetters()
         {
+            //Test getters
             Customer c1 = new Customer(101, "John", "Doe", "john.doe@example.com", "555-1234");
 
             Console.WriteLine("Testing Customer getters");
@@ -103,6 +112,7 @@ namespace CustomerProductTests
 
         static void TestCustomerPropertySetters()
         {
+            //Test setters
             Customer c1 = new Customer(101, "John", "Doe", "john.doe@example.com", "555-1234");
 
             Console.WriteLine("Testing Customer setters");
