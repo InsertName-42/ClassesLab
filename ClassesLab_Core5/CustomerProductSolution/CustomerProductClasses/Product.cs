@@ -2,6 +2,7 @@
 
 namespace CustomerProductClasses
 {
+    //Private fields
     public class Product
     {
         private int id;
@@ -11,7 +12,7 @@ namespace CustomerProductClasses
         private int quantity;
 
         public Product() { }
-
+        
         public Product(int productId, string productCode, string desc, decimal price, int qty)
         {
             id = productId;
@@ -20,7 +21,7 @@ namespace CustomerProductClasses
             unitPrice = price;
             quantity = qty;
         }
-
+        //Getters and  Setters
         public int Id
         {
             get
@@ -80,7 +81,7 @@ namespace CustomerProductClasses
                 quantity = value;
             }
         }
-
+        //Method to display product as a string
         public override string ToString()
         {
             return String.Format("Id: {0} Code: {1} Description: {2} UnitPrice: {3:C} Quantity: {4}", id, code, description, unitPrice, quantity);

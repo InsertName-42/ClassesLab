@@ -3,6 +3,7 @@
 namespace CustomerProductClasses
 {
     public class Customer
+        //Private fields
     {
         private int id;
         private string firstName;
@@ -20,7 +21,7 @@ namespace CustomerProductClasses
             this.email = email;
             this.phone = phone;
         }
-
+        //Basic getters and setters
         public int Id
         {
             get { return id; }
@@ -50,7 +51,7 @@ namespace CustomerProductClasses
             get { return phone; }
             set { phone = value; }
         }
-
+        //Method that displays costumer content as a string.
         public override string ToString()
         {
             return String.Format("Id: {0} FirstName: {1} LastName: {2} Email: {3} Phone: {4}", id, firstName, lastName, email, phone);
