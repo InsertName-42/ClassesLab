@@ -4,13 +4,16 @@ namespace CardClasses
 {
     public class Card
     {
+        //Set up avaliable options using static array
         private static string[] values = { "", "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "Ten", "Jack", "Queen", "King" };
         private static string[] suits = { "", "Clubs", "Diamonds", "Hearts", "Spades" };
         private static Random generator = new Random();
 
+        //Store values
         private int value;
         private int suit;
-
+        
+        //Getters and setters
         public int Value
         {
             get
@@ -18,6 +21,7 @@ namespace CardClasses
                 return value;
             }
             set
+                //Data validation
             {
                 if (value >= 1 && value <= 13)
                     this.value = value;
@@ -34,13 +38,14 @@ namespace CardClasses
             }
             set
             {
+                //Data validation
                 if (value >= 1 && value <= 4)
                     this.suit = value;
                 else
                     throw new ArgumentOutOfRangeException(nameof(suit), "Suit must be between 1 and 4.");
             }
         }
-
+        //Default values
         public Card()
         {
             Value = 1;
@@ -52,7 +57,7 @@ namespace CardClasses
             Value = value;
             Suit = suit;
         }
-
+        //Determine card attributes
         public bool IsRed()
         {
             return Suit == 2 || Suit == 3;
@@ -93,16 +98,18 @@ namespace CardClasses
             return Value >= 11 && Value <= 13;
         }
 
+        //Checks if suits match
         public bool SuitMatches(Card otherCard)
         {
             return Suit == otherCard.Suit;
         }
-
+        //Checks if values match
         public bool ValueMatches(Card otherCard)
         {
             return Value == otherCard.Value;
         }
 
+        //Displays string representation of a card
         public override string ToString()
         {
             return values[value] + " of " + suits[suit];
