@@ -3,7 +3,6 @@
 namespace CustomerProductClasses
 {
     public class Customer
-        //Private fields
     {
         private int id;
         private string firstName;
@@ -13,15 +12,15 @@ namespace CustomerProductClasses
 
         public Customer() { }
 
-        public Customer(int customerId, string firstName, string lastName, string email, string phone)
+        public Customer(int customerId, string email, string firstName, string lastName, string phone)
         {
             id = customerId;
+            this.email = email;
             this.firstName = firstName;
             this.lastName = lastName;
-            this.email = email;
             this.phone = phone;
         }
-        //Basic getters and setters
+
         public int Id
         {
             get { return id; }
@@ -51,10 +50,44 @@ namespace CustomerProductClasses
             get { return phone; }
             set { phone = value; }
         }
-        //Method that displays costumer content as a string.
+
         public override string ToString()
         {
             return String.Format("Id: {0} FirstName: {1} LastName: {2} Email: {3} Phone: {4}", id, firstName, lastName, email, phone);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+                return false;
+            else
+            {
+                Customer other = (Customer)obj;
+                return other.Id == Id &&
+                       other.Email == Email &&
+                       other.FirstName == FirstName &&
+                       other.LastName == LastName &&
+                       other.Phone == Phone;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return 13 + 7 * id.GetHashCode() +
+                   7 * email.GetHashCode() +
+                   7 * firstName.GetHashCode() +
+                   7 * lastName.GetHashCode() +
+                   7 * phone.GetHashCode();
+        }
+
+        public static bool operator ==(Customer c1, Customer c2)
+        {
+            return c1.Equals(c2);
+        }
+
+        public static bool operator !=(Customer c1, Customer c2)
+        {
+            return !c1.Equals(c2);
         }
     }
 }

@@ -13,14 +13,12 @@ namespace DominoClasses
             {
                 return side1;
             }
-            // If there's a setter, it MUST make sure that the value for side1 is correct!
-            // When it's not, the correct approach is to throw an exception
             set
             {
                 if (value >= 0 && value <= 12)
                     side1 = value;
                 else
-                    throw new ArgumentException("Value must be between 0 and 12.");
+                    throw new ArgumentOutOfRangeException(nameof(Side1), "Value must be between 0 and 12.");
             }
         }
 
@@ -35,18 +33,16 @@ namespace DominoClasses
                 if (value >= 0 && value <= 12)
                     side2 = value;
                 else
-                    throw new ArgumentException("Value must be between 0 and 12.");
+                    throw new ArgumentOutOfRangeException(nameof(Side2), "Value must be between 0 and 12.");
             }
         }
 
-        // notice that I'm calling setters here because of validation
         public Domino()
         {
             Side1 = 0;
             Side2 = 0;
         }
 
-        // calling setters here too
         public Domino(int p1, int p2)
         {
             Side1 = p1;
@@ -60,7 +56,6 @@ namespace DominoClasses
             side2 = temp;
         }
 
-        // this is a READ-ONLY property
         public int Score
         {
             get
@@ -69,30 +64,48 @@ namespace DominoClasses
             }
         }
 
-        // this method could also have been a read-only property
         public bool IsDouble()
         {
-            if (side1 == side2)
-                return true;
-            else
-                return false;
+            return side1 == side2;
         }
-        /*
-        public bool IsDouble
-        {
-            get
-            {
-                if (side1 == side2)
-                    return true;
-                else
-                    return false;
-            }
-        }
-        */
 
         public override string ToString()
         {
-            return String.Format("Side 1: {0}  Side 2: {1}", side1, side2);
+            return $"[{side1}|{side2}]";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+                return false;
+            else
+            {
+                Domino other = (Domino)obj;
+                // A domino [1|2] is considered equal to [2|1]
+                return (this.Side1 == other.Side1 && this.Side2 == other.Side2) ||
+                       (this.Side1 == other.Side2 && this.Side2 == other.Side1);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            // A simple hash code that accounts for dominoes being equal regardless of side order
+            return (Side1 < Side2) ? (13 + 7 * Side1.GetHashCode() + 7 * Side2.GetHashCode()) :
+                                     (13 + 7 * Side2.GetHashCode() + 7 * Side1.GetHashCode());
+        }
+
+        public static bool operator ==(Domino d1, Domino d2)
+        {
+            if (ReferenceEquals(d1, null))
+            {
+                return ReferenceEquals(d2, null);
+            }
+            return d1.Equals(d2);
+        }
+
+        public static bool operator !=(Domino d1, Domino d2)
+        {
+            return !(d1 == d2);
         }
     }
 }
