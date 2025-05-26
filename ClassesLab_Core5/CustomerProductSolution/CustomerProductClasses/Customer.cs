@@ -2,6 +2,7 @@
 
 namespace CustomerProductClasses
 {
+    //Construct
     public class Customer
     {
         private int id;
@@ -21,6 +22,7 @@ namespace CustomerProductClasses
             this.phone = phone;
         }
 
+        //Getters and setters
         public int Id
         {
             get { return id; }
@@ -51,6 +53,7 @@ namespace CustomerProductClasses
             set { phone = value; }
         }
 
+        //Overide default functions
         public override string ToString()
         {
             return String.Format("Id: {0} FirstName: {1} LastName: {2} Email: {3} Phone: {4}", id, firstName, lastName, email, phone);
@@ -70,7 +73,7 @@ namespace CustomerProductClasses
                        other.Phone == Phone;
             }
         }
-
+        //For other methods to use
         public override int GetHashCode()
         {
             return 13 + 7 * id.GetHashCode() +
@@ -79,7 +82,7 @@ namespace CustomerProductClasses
                    7 * lastName.GetHashCode() +
                    7 * phone.GetHashCode();
         }
-
+        //Overide operations
         public static bool operator ==(Customer c1, Customer c2)
         {
             return c1.Equals(c2);

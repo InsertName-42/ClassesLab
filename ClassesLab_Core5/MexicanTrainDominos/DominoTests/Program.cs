@@ -3,6 +3,8 @@ using DominoClasses;
 
 namespace DominoTests
 {
+    //Each method's purpose is defined in the console
+    //Lists expected, then shows true value
     class Program
     {
         static void Main(string[] args)
@@ -105,6 +107,7 @@ namespace DominoTests
 
         static void TestDominoComparison()
         {
+            //Addition
             Console.WriteLine("\n--- Testing Domino Comparison ---");
             Domino d1 = new Domino(1, 2);
             Domino d2 = new Domino(2, 1);
@@ -132,6 +135,7 @@ namespace DominoTests
         }
 
         static void TestBoneyardShuffle()
+        //Randomization
         {
             Console.WriteLine("\n--- Testing Boneyard Shuffle ---");
             Boneyard b = new Boneyard(6);

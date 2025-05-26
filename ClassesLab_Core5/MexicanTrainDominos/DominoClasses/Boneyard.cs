@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace DominoClasses
 {
+    //Construct
     public class Boneyard
     {
         private List<Domino> dominos;
@@ -12,9 +13,9 @@ namespace DominoClasses
         public Boneyard(int maxDots)
         {
             dominos = new List<Domino>();
-            generator = new Random(); // Initialize Random object here
+            generator = new Random();
 
-            // Populate the boneyard with all possible unique dominoes up to maxDots
+            //Generates all possibilities
             for (int i = 0; i <= maxDots; i++)
             {
                 for (int j = i; j <= maxDots; j++)
@@ -24,6 +25,7 @@ namespace DominoClasses
             }
         }
 
+        //Methods
         public int NumDominos
         {
             get
@@ -64,10 +66,11 @@ namespace DominoClasses
                 dominos.RemoveAt(0);
                 return d;
             }
-            return null; // Or throw an exception if dealing from an empty boneyard is not allowed
+            return null;
         }
 
         public void Shuffle()
+            //Ranomize
         {
             for (int i = 0; i < NumDominos; i++)
             {
@@ -77,8 +80,9 @@ namespace DominoClasses
                 dominos[i] = d;
             }
         }
-
+        //Overide
         public override string ToString()
+            //Display
         {
             string output = "";
             foreach (Domino d in dominos)

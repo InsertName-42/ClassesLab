@@ -7,6 +7,7 @@ namespace DominoClasses
         private int side1;
         private int side2;
 
+        //Define sides
         public int Side1
         {
             get
@@ -36,7 +37,7 @@ namespace DominoClasses
                     throw new ArgumentOutOfRangeException(nameof(Side2), "Value must be between 0 and 12.");
             }
         }
-
+        //Construct
         public Domino()
         {
             Side1 = 0;
@@ -49,7 +50,9 @@ namespace DominoClasses
             Side2 = p2;
         }
 
+        //Methods
         public void Flip()
+            //Reverses order (no effect on value)
         {
             int temp = side1;
             side1 = side2;
@@ -57,6 +60,7 @@ namespace DominoClasses
         }
 
         public int Score
+            //Addition, disregards order
         {
             get
             {
@@ -69,6 +73,7 @@ namespace DominoClasses
             return side1 == side2;
         }
 
+        //Overides
         public override string ToString()
         {
             return $"[{side1}|{side2}]";
@@ -76,12 +81,12 @@ namespace DominoClasses
 
         public override bool Equals(object obj)
         {
+            //Equality does not consider order
             if (obj == null || obj.GetType() != this.GetType())
                 return false;
             else
             {
                 Domino other = (Domino)obj;
-                // A domino [1|2] is considered equal to [2|1]
                 return (this.Side1 == other.Side1 && this.Side2 == other.Side2) ||
                        (this.Side1 == other.Side2 && this.Side2 == other.Side1);
             }
@@ -89,11 +94,12 @@ namespace DominoClasses
 
         public override int GetHashCode()
         {
-            // A simple hash code that accounts for dominoes being equal regardless of side order
+            //Does not consider order
             return (Side1 < Side2) ? (13 + 7 * Side1.GetHashCode() + 7 * Side2.GetHashCode()) :
                                      (13 + 7 * Side2.GetHashCode() + 7 * Side1.GetHashCode());
         }
 
+        //Operatrions
         public static bool operator ==(Domino d1, Domino d2)
         {
             if (ReferenceEquals(d1, null))

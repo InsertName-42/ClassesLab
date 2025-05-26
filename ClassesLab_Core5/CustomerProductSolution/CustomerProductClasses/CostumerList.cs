@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CustomerProductClasses
-{
+{//Creates a list of all customers
     public class CustomerList
     {
         private List<Customer> customers;
@@ -14,7 +14,7 @@ namespace CustomerProductClasses
         {
             customers = new List<Customer>();
         }
-
+        //How many
         public int Count
         {
             get
@@ -22,33 +22,38 @@ namespace CustomerProductClasses
                 return customers.Count;
             }
         }
-
+        //Set values
         public void Fill()
         {
             customers = CustomerDB.GetCustomers();
         }
+        //Saves values
 
         public void Save()
         {
             CustomerDB.SaveCustomers(customers);
         }
+        //Add
 
         public void Add(Customer customer)
         {
             customers.Add(customer);
         }
 
+        //Add specific
         public void Add(int id, string email, string firstName, string lastName, string phone)
         {
             Customer c = new Customer(id, email, firstName, lastName, phone);
             customers.Add(c);
         }
 
+        //Removes
         public void Remove(Customer customer)
         {
             customers.Remove(customer);
         }
 
+        //Overides
         public override string ToString()
         {
             string output = "";
@@ -83,6 +88,7 @@ namespace CustomerProductClasses
                 return null;
             }
         }
+        //Operations
 
         public static CustomerList operator +(CustomerList cl, Customer c)
         {

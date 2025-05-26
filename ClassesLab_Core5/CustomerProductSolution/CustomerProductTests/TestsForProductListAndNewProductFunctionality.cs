@@ -12,7 +12,10 @@ namespace CustomerProductListTests
     {
         static void Main(string[] args)
         {
+            //Screen size
             Console.SetWindowSize(120, 40);
+            //All tests
+            //Product
             TestProductListConstructor();
             TestProductListAdd();
             TestProductListSaveAndFill();
@@ -25,6 +28,7 @@ namespace CustomerProductListTests
 
             Console.WriteLine("\n--------------------------------------------------\n");
 
+            //Customer
             TestCustomerListConstructor();
             TestCustomerListAdd();
             TestCustomerListSaveAndFill();
@@ -38,7 +42,7 @@ namespace CustomerProductListTests
 
             Console.ReadLine();
         }
-
+        //Product tests
         static void TestProductListConstructor()
         {
             ProductList list = new ProductList();
@@ -51,6 +55,7 @@ namespace CustomerProductListTests
 
         static void TestProductListAdd()
         {
+            //Adding using + and Add
             ProductList list = new ProductList();
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
             Product p2 = new Product(2, "T200", "This is a test product 2", 200M, 20);
@@ -85,10 +90,10 @@ namespace CustomerProductListTests
 
         static void TestProductEquals()
         {
-            // these 2 objects should be equal. They reference the same object.
+            //Reference the same object.
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
             Product p1Reference = p1;
-            // these 2 objects should be equal after overridding Equals. The attribute values are all equal.
+            //Attribute values are all equal.
             Product p2 = new Product(1, "T100", "This is a test product", 100M, 10);
 
             Console.WriteLine("Testing product equals.");
@@ -100,7 +105,6 @@ namespace CustomerProductListTests
 
         static void TestProductListRemove()
         {
-            // test fails before I add equals to product
             ProductList list = new ProductList();
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
 
@@ -117,16 +121,16 @@ namespace CustomerProductListTests
         static void TestProductGetHashCode()
         {
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
-            // these 2 objects should have the same hashcode. The attribute values are all equal.
+            //Attribute values are all equal.
             Product p2 = new Product(1, "T100", "This is a test product", 100M, 10);
-            // this one should have a unique hashcode
+            //Unique hashcode
             Product p3 = new Product(3, "T300", "This is a test product 3", 300M, 30);
 
             Console.WriteLine("Testing product GetHashCode");
             Console.WriteLine("2 object that have the same properties should have the same hashcode. Expecting true. " + (p1.GetHashCode() == p2.GetHashCode()));
             Console.WriteLine("2 object that have different properties should have different hashcodes. Expecting false. " + (p1.GetHashCode() == p3.GetHashCode()));
 
-            // this will fail before overriding GetHashCode
+            //Needs HashCode override
             HashSet<Product> set = new HashSet<Product>();
             set.Add(p1);
             set.Add(p3);
@@ -138,10 +142,10 @@ namespace CustomerProductListTests
 
         static void TestProductEqualityOperator()
         {
-            // these 2 objects should be equal. They reference the same object.
+            //Reference the same object.
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
             Product p1Reference = p1;
-            // these 2 objects should be equal after overridding Equals. The attribute values are all equal.
+            //Attribute values are all equal.
             Product p2 = new Product(1, "T100", "This is a test product", 100M, 10);
 
             Console.WriteLine("Testing product ==");
@@ -152,10 +156,10 @@ namespace CustomerProductListTests
 
         static void TestProductInequalityOperator()
         {
-            // these 2 objects should be equal after overridding Equals. The attribute values are all equal.
+            //Attribute values are all equal.
             Product p1 = new Product(1, "T100", "This is a test product", 100M, 10);
             Product p2 = new Product(1, "T100", "This is a test product", 100M, 10);
-            // this one should not be equal
+            //Not equal
             Product p3 = new Product(3, "T300", "This is a test product 3", 300M, 30);
 
             Console.WriteLine("Testing product !=");
@@ -166,7 +170,7 @@ namespace CustomerProductListTests
 
         static void TestProductListIndexer()
         {
-            // test fails before I add equals to product
+            //Needs product equals
             ProductList list = new ProductList();
             list.Fill();
 
@@ -175,7 +179,7 @@ namespace CustomerProductListTests
             Console.WriteLine("Index 'T200'. Expecting product with code of T200 \n" + list["T200"]);
             Console.WriteLine();
         }
-
+        //Customer tests (equivilant function)
         static void TestCustomerListConstructor()
         {
             CustomerList list = new CustomerList();
@@ -222,10 +226,10 @@ namespace CustomerProductListTests
 
         static void TestCustomerEquals()
         {
-            // these 2 objects should be equal. They reference the same object.
+            //Reference the same object.
             Customer c1 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
             Customer c1Reference = c1;
-            // these 2 objects should be equal after overriding Equals. The attribute values are all equal.
+            //Attribute values are all equal.
             Customer c2 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
 
             Console.WriteLine("Testing customer equals.");
@@ -253,9 +257,9 @@ namespace CustomerProductListTests
         static void TestCustomerGetHashCode()
         {
             Customer c1 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
-            // these 2 objects should have the same hashcode. The attribute values are all equal.
+            //Attribute values are all equal.
             Customer c2 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
-            // this one should have a unique hashcode
+            //Unique hashcode
             Customer c3 = new Customer(3, "charlie.brown@example.com", "Charlie", "Brown", "555-555-5555");
 
             Console.WriteLine("Testing customer GetHashCode");
@@ -272,10 +276,10 @@ namespace CustomerProductListTests
 
         static void TestCustomerEqualityOperator()
         {
-            // these 2 objects should be equal. They reference the same object.
+            //Reference the same object.
             Customer c1 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
             Customer c1Reference = c1;
-            // these 2 objects should be equal after overriding Equals. The attribute values are all equal.
+            //Attribute values are all equal.
             Customer c2 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
 
             Console.WriteLine("Testing customer ==");
@@ -286,10 +290,9 @@ namespace CustomerProductListTests
 
         static void TestCustomerInequalityOperator()
         {
-            // these 2 objects should be equal after overriding Equals. The attribute values are all equal.
+            //Attribute values are all equal.
             Customer c1 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
             Customer c2 = new Customer(1, "alice.smith@example.com", "Alice", "Smith", "555-111-2222");
-            // this one should not be equal
             Customer c3 = new Customer(3, "charlie.brown@example.com", "Charlie", "Brown", "555-555-5555");
 
             Console.WriteLine("Testing customer !=");
