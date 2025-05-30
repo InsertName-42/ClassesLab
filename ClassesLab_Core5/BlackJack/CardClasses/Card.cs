@@ -114,5 +114,22 @@ namespace CardClasses
         {
             return values[value] + " of " + suits[suit];
         }
+        //Overides
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Card other = (Card)obj;
+            return Value == other.Value && Suit == other.Suit;
+        }
+
+        //Consistent Hash for cards
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode() ^ Suit.GetHashCode();
+        }
     }
 }
