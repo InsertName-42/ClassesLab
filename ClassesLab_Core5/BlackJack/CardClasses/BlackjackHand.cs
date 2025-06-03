@@ -9,11 +9,13 @@ namespace CardClasses
 
     public class BlackJackHand : Hand
     {
- 
+        //Hand specifically for blackjack, inherented from hand
         public BlackJackHand() : base() { }
-
+        //Initializes blackjack for a specific decksize
         public BlackJackHand(Deck deck, int numCards) : base(deck, numCards) { }
 
+        //Methods
+        //Checks for ace
         public bool HasAce()
         {
  
@@ -27,6 +29,7 @@ namespace CardClasses
             return false;
         }
 
+        //Calculates scores
         public int GetScore()
         {
             int score = 0;
@@ -58,12 +61,13 @@ namespace CardClasses
             return score;
         }
 
+        //Checks for a score greater than 21
         public bool IsBusted()
         {
             return GetScore() > 21;
         }
 
-
+        //Displays a hand as a string
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
