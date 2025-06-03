@@ -44,7 +44,7 @@ namespace CardTests
             Console.WriteLine($"Hand details:\n{handWithoutAce.ToString()}");
             Console.WriteLine($"Does handWithoutAce have an Ace? Expected: False, Actual: {handWithoutAce.HasAce()}");
 
-            // Test GetScore() method
+            //Test GetScore() method
             Console.WriteLine("\n--- Test 4: GetScore() ---");
 
             //Hand with no aces
