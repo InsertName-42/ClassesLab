@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DominoClasses
 {
-    public class Domino
+    //IComparable<Domino>
+    public class Domino : IComparable<Domino>
     {
         private int side1;
         private int side2;
@@ -52,7 +54,7 @@ namespace DominoClasses
 
         //Methods
         public void Flip()
-            //Reverses order (no effect on value)
+        //Reverses order (no effect on value)
         {
             int temp = side1;
             side1 = side2;
@@ -60,7 +62,7 @@ namespace DominoClasses
         }
 
         public int Score
-            //Addition, disregards order
+        //Addition, disregard order
         {
             get
             {
@@ -73,7 +75,7 @@ namespace DominoClasses
             return side1 == side2;
         }
 
-        //Overides
+        //Overrides
         public override string ToString()
         {
             return $"[{side1}|{side2}]";
@@ -99,7 +101,7 @@ namespace DominoClasses
                                      (13 + 7 * Side2.GetHashCode() + 7 * Side1.GetHashCode());
         }
 
-        //Operatrions
+        //Operators
         public static bool operator ==(Domino d1, Domino d2)
         {
             if (ReferenceEquals(d1, null))
@@ -112,6 +114,15 @@ namespace DominoClasses
         public static bool operator !=(Domino d1, Domino d2)
         {
             return !(d1 == d2);
+        }
+
+        //IComparable
+        public int CompareTo(Domino other)
+        {
+            if (other == null) return 1;
+
+            //Compare based on Score
+            return this.Score.CompareTo(other.Score);
         }
     }
 }

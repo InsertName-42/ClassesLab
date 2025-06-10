@@ -1,5 +1,5 @@
 ﻿using System;
-
+//The tests are all contained in DominoTests
 namespace MexicanTrainDominos
 {
     class Program

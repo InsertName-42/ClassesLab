@@ -1,198 +1,350 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DominoClasses;
 
 namespace DominoTests
 {
-    //Each method's purpose is defined in the console
-    //Lists expected, then shows true value
-    class Program
+    internal class TrainTests
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("--- Testing Domino Class ---");
-            TestDominoConstructors();
-            TestDominoPropertyGetters();
-            TestDominoPropertySetters();
-            TestDominoFlip();
-            TestDominoScore();
-            TestDominoIsDouble();
-            TestDominoPropertySettersWithExceptions();
-            TestDominoComparison();
-            Console.WriteLine("--- Domino Class Tests Completed ---");
+            Console.WriteLine("Starting Train Class Tests");
 
-            Console.WriteLine("\n--- Testing Boneyard Class ---");
-            TestBoneyardConstructor();
-            TestBoneyardShuffle();
-            TestBoneyardDeal();
-            TestBoneyardIndexer();
-            Console.WriteLine("--- Boneyard Class Tests Completed ---");
+            TestTrainConstructors();
+            TestTrainProperties();
+            TestTrainAddAndToString();
+            TestMexicanTrainPlayable();
+            TestPlayerTrainPlayableAndOpenClose();
+            TestPlayMethodExceptions();
+            TestDominoSorting();
+            TestTrainIteration();
 
+            Console.WriteLine("\n All Train Class Tests Completed ");
             Console.ReadLine();
         }
 
-        static void TestDominoConstructors()
+        static void TestTrainConstructors()
         {
-            Console.WriteLine("\n--- Testing Domino Constructors ---");
-            Domino defaultDomino = new Domino();
-            Console.WriteLine($"Default constructor: Expected [0|0], Actual: {defaultDomino}");
+            Console.WriteLine("\n Test 1: Train Constructors ");
 
-            Domino customDomino = new Domino(3, 5);
-            Console.WriteLine($"Custom constructor (3, 5): Expected [3|5], Actual: {customDomino}");
+            //Test default constructor
+            Train train1 = new MexicanTrain();
+            Console.WriteLine($"Default constructor: Is train empty? Expected: True, Actual: {train1.IsEmpty}");
+            Console.WriteLine($"Default constructor: Engine value? Expected: 1, Actual: {train1.EngineValue}");
+            Console.WriteLine($"Default constructor: Playable value? Expected: 1, Actual: {train1.PlayableValue}");
+            Console.WriteLine($"Default constructor: Count? Expected: 0, Actual: {train1.Count}");
+            Console.WriteLine($"Default constructor: ToString? Expected: Engine: [1] - Empty Train, Actual: {train1.ToString()}");
+
+
+            //Test constructor with value
+            Train train2 = new MexicanTrain(6);
+            Console.WriteLine($"Constructor with engine value (6): Is train empty? Expected: True, Actual: {train2.IsEmpty}");
+            Console.WriteLine($"Constructor with engine value (6): Engine value? Expected: 6, Actual: {train2.EngineValue}");
+            Console.WriteLine($"Constructor with engine value (6): Playable value? Expected: 6, Actual: {train2.PlayableValue}");
+            Console.WriteLine($"Constructor with engine value (6): Count? Expected: 0, Actual: {train2.Count}");
+            Console.WriteLine($"Constructor with engine value (6): ToString? Expected: Engine: [6] - Empty Train, Actual: {train2.ToString()}");
         }
 
-        static void TestDominoPropertyGetters()
+        static void TestTrainProperties()
+            //Tests of properties
         {
-            Console.WriteLine("\n--- Testing Domino Property Getters ---");
-            Domino d = new Domino(4, 6);
-            Console.WriteLine($"Domino: {d}");
-            Console.WriteLine($"Side1: Expected 4, Actual: {d.Side1}");
-            Console.WriteLine($"Side2: Expected 6, Actual: {d.Side2}");
+            Console.WriteLine("\n Test 2: Train Properties ");
+            Train train = new MexicanTrain(12);
+
+            Console.WriteLine($"Initial Count: Expected 0, Actual: {train.Count}");
+            Console.WriteLine($"Initial IsEmpty: Expected True, Actual: {train.IsEmpty}");
+            Console.WriteLine($"Initial EngineValue: Expected 12, Actual: {train.EngineValue}");
+            Console.WriteLine($"Initial PlayableValue: Expected 12, Actual: {train.PlayableValue}");
+            Console.WriteLine($"Initial LastDomino: Expected null, Actual: {train.LastDomino}");
+
+            Domino d1 = new Domino(12, 5);
+            Domino d2 = new Domino(5, 3);
+            train.Add(d1);
+
+            Console.WriteLine($"\nAfter adding [12|5]:");
+            Console.WriteLine($"Count: Expected 1, Actual: {train.Count}");
+            Console.WriteLine($"IsEmpty: Expected False, Actual: {train.IsEmpty}");
+            Console.WriteLine($"LastDomino: Expected [12|5], Actual: {train.LastDomino}");
+            Console.WriteLine($"PlayableValue: Expected 5, Actual: {train.PlayableValue}");
+
+            train.Add(d2);
+
+            Console.WriteLine($"\nAfter adding [5|3]:");
+            Console.WriteLine($"Count: Expected 2, Actual: {train.Count}");
+            Console.WriteLine($"LastDomino: Expected [5|3], Actual: {train.LastDomino}");
+            Console.WriteLine($"PlayableValue: Expected 3, Actual: {train.PlayableValue}");
+
+            //Test indexer
+            Console.WriteLine($"Domino at index 0: Expected [12|5], Actual: {train[0]}");
+            Console.WriteLine($"Domino at index 1: Expected [5|3], Actual: {train[1]}");
+
+            try
+            {
+                Console.WriteLine($"Attempting to access index 2: {train[2]} (Expected ArgumentOutOfRangeException)");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Caught expected exception for invalid index: {ex.Message}");
+            }
         }
 
-        static void TestDominoPropertySetters()
+        static void TestTrainAddAndToString()
         {
-            Console.WriteLine("\n--- Testing Domino Property Setters ---");
-            Domino d = new Domino();
-            d.Side1 = 7;
-            d.Side2 = 9;
-            Console.WriteLine($"After setting Side1 to 7 and Side2 to 9: Expected [7|9], Actual: {d}");
+            Console.WriteLine("\n Test 3: Train Add and ToString ");
+            Train train = new MexicanTrain(10);
+            Console.WriteLine($"Initial train ToString: {train.ToString()}");
+
+            train.Add(new Domino(10, 10));
+            Console.WriteLine($"After adding [10|10]: {train.ToString()}");
+
+            train.Add(new Domino(10, 7));
+            Console.WriteLine($"After adding [10|7]: {train.ToString()}");
+
+            train.Add(new Domino(7, 2));
+            Console.WriteLine($"After adding [7|2]: {train.ToString()}");
         }
 
-        static void TestDominoFlip()
+        static void TestMexicanTrainPlayable()
         {
-            Console.WriteLine("\n--- Testing Domino Flip ---");
-            Domino d = new Domino(1, 6);
-            Console.WriteLine($"Before flip: {d}");
-            d.Flip();
-            Console.WriteLine($"After flip: Expected [6|1], Actual: {d}");
+            Console.WriteLine("\n Test 4: MexicanTrain IsPlayable and Play ");
+            MexicanTrain mexicanTrain = new MexicanTrain(12);
+            Hand hand = new Hand();
+
+            //Test 1: Empty train, first domino must match engine
+            //Playable no flip
+            Domino d1 = new Domino(12, 5);
+            //Playable must flip
+            Domino d2 = new Domino(5, 12);
+            //Not playable
+            Domino d3 = new Domino(10, 8);
+
+            bool mustFlip;
+
+            Console.WriteLine($"Is [12|5] playable on empty MexicanTrain (engine 12)? Expected: True, Actual: {mexicanTrain.IsPlayable(hand, d1, out mustFlip)}, MustFlip: {mustFlip}");
+            Console.WriteLine($"Is [5|12] playable on empty MexicanTrain (engine 12)? Expected: True, Actual: {mexicanTrain.IsPlayable(hand, d2, out mustFlip)}, MustFlip: {mustFlip}");
+            Console.WriteLine($"Is [10|8] playable on empty MexicanTrain (engine 12)? Expected: False, Actual: {mexicanTrain.IsPlayable(hand, d3, out mustFlip)}, MustFlip: {mustFlip}");
+
+            //Play the first domino
+            hand.Add(d1);
+            mexicanTrain.Play(hand, d1);
+            Console.WriteLine($"\nPlayed [12|5]. Train: {mexicanTrain.ToString()} (PlayableValue: {mexicanTrain.PlayableValue})");
+            Console.WriteLine($"Hand after play: {hand.ToString()}");
+
+            //Test 2: Train not empty, domino must match PlayableValue
+            // Playable, no flip
+            Domino d4 = new Domino(5, 1);
+            //Playable, must flip
+            Domino d5 = new Domino(0, 5);
+            //Not playable
+            Domino d6 = new Domino(1, 2);
+
+            hand.Add(d4);
+            hand.Add(d5);
+            hand.Add(d6);
+
+            Console.WriteLine($"\nHand before next plays: {hand.ToString()}");
+
+            Console.WriteLine($"Is [5|1] playable on MexicanTrain (playable value 5)? Expected: True, Actual: {mexicanTrain.IsPlayable(hand, d4, out mustFlip)}, MustFlip: {mustFlip}");
+            mexicanTrain.Play(hand, d4);
+            Console.WriteLine($"Played [5|1]. Train: {mexicanTrain.ToString()} (PlayableValue: {mexicanTrain.PlayableValue})");
+            Console.WriteLine($"Hand after play: {hand.ToString()}");
+
+            Console.WriteLine($"Is [0|5] playable on MexicanTrain (playable value 1)? Expected: False, Actual: {mexicanTrain.IsPlayable(hand, d5, out mustFlip)}, MustFlip: {mustFlip}"); // Playable value is now 1
+            //Flipped for the current playable value
+            //Playable must flip
+            Domino d7 = new Domino(8, 1);
+            hand.Add(d7);
+            Console.WriteLine($"Is [8|1] playable on MexicanTrain (playable value 1)? Expected: True, Actual: {mexicanTrain.IsPlayable(hand, d7, out mustFlip)}, MustFlip: {mustFlip}");
+            mexicanTrain.Play(hand, d7);
+            Console.WriteLine($"Played [8|1] (flipped). Train: {mexicanTrain.ToString()} (PlayableValue: {mexicanTrain.PlayableValue})");
+            Console.WriteLine($"Hand after play: {hand.ToString()}");
         }
 
-        static void TestDominoScore()
+        static void TestPlayerTrainPlayableAndOpenClose()
         {
-            Console.WriteLine("\n--- Testing Domino Score ---");
+            Console.WriteLine("\n Test 5: PlayerTrain IsPlayable, Open, Close ");
+            Hand playerHand = new Hand();
+            Hand otherHand = new Hand();
+            PlayerTrain playerTrain = new PlayerTrain(playerHand, 12);
+
+            //Playable on empty train
             Domino d1 = new Domino(12, 6);
-            Console.WriteLine($"Domino: {d1}, Score: Expected 18, Actual: {d1.Score}");
+            //Playable on 6
+            Domino d2 = new Domino(6, 1);
+            //Not playable
+            Domino d3 = new Domino(5, 5);
+            playerHand.Add(d1);
+            playerHand.Add(d2);
+            playerHand.Add(d3);
+
+            Domino d_other = new Domino(12, 3);
+            otherHand.Add(d_other);
+
+            bool mustFlip;
+
+            Console.WriteLine($"PlayerTrain initial state: IsOpen={playerTrain.IsOpen}, Train: {playerTrain.ToString()}");
+            Console.WriteLine($"Player Hand: {playerHand.ToString()}");
+            Console.WriteLine($"Other Hand: {otherHand.ToString()}");
+
+            //Empty train, player's hand
+            Console.WriteLine($"\n--- Empty train, player's own hand ---");
+            Console.WriteLine($"Is [12|6] from playerHand playable? Expected: True, Actual: {playerTrain.IsPlayable(playerHand, d1, out mustFlip)}, MustFlip: {mustFlip}");
+            playerTrain.Play(playerHand, d1);
+            Console.WriteLine($"Played [12|6]. Train: {playerTrain.ToString()} (PlayableValue: {playerTrain.PlayableValue})");
+            Console.WriteLine($"Player Hand: {playerHand.ToString()}");
+
+            //Train not empty, player's hand, train is closed
+            Console.WriteLine($"\n--- Train not empty, player's own hand, train closed ---");
+            Console.WriteLine($"Is [6|1] from playerHand playable? Expected: True, Actual: {playerTrain.IsPlayable(playerHand, d2, out mustFlip)}, MustFlip: {mustFlip}");
+            playerTrain.Play(playerHand, d2);
+            Console.WriteLine($"Played [6|1]. Train: {playerTrain.ToString()} (PlayableValue: {playerTrain.PlayableValue})");
+            Console.WriteLine($"Player Hand: {playerHand.ToString()}");
+
+            //Other hand, train is closed
+            Console.WriteLine($"\n--- Other hand, train closed ---");
+            Console.WriteLine($"Is [12|3] from otherHand playable? Expected: False, Actual: {playerTrain.IsPlayable(otherHand, d_other, out mustFlip)}, MustFlip: {mustFlip}");
+
+            //Other hand, train is open
+            Console.WriteLine($"\n--- Other hand, train open ---");
+            playerTrain.Open();
+            Console.WriteLine($"PlayerTrain state after Open(): IsOpen={playerTrain.IsOpen}");
+            Domino d_other_playable = new Domino(1, 9);
+            otherHand.Add(d_other_playable);
+            Console.WriteLine($"Other Hand (with new playable): {otherHand.ToString()}");
+            Console.WriteLine($"Is [1|9] from otherHand playable? Expected: True, Actual: {playerTrain.IsPlayable(otherHand, d_other_playable, out mustFlip)}, MustFlip: {mustFlip}");
+            playerTrain.Play(otherHand, d_other_playable);
+            Console.WriteLine($"Played [1|9] by otherHand. Train: {playerTrain.ToString()} (PlayableValue: {playerTrain.PlayableValue})");
+            Console.WriteLine($"Other Hand after play: {otherHand.ToString()}");
+
+            //Reclose train
+            Console.WriteLine($"\n--- Close train ---");
+            playerTrain.Close();
+            Console.WriteLine($"PlayerTrain state after Close(): IsOpen={playerTrain.IsOpen}");
+            Domino d_other_unplayable = new Domino(9, 0);
+            otherHand.Add(d_other_unplayable);
+            Console.WriteLine($"Other Hand (with new unplayable): {otherHand.ToString()}");
+            Console.WriteLine($"Is [9|0] from otherHand playable? Expected: False, Actual: {playerTrain.IsPlayable(otherHand, d_other_unplayable, out mustFlip)}, MustFlip: {mustFlip}");
         }
 
-        static void TestDominoIsDouble()
+        static void TestPlayMethodExceptions()
         {
-            Console.WriteLine("\n--- Testing Domino IsDouble ---");
-            Domino d1 = new Domino(5, 5);
-            Domino d2 = new Domino(2, 4);
-            Console.WriteLine($"Domino: {d1}, IsDouble: Expected True, Actual: {d1.IsDouble()}");
-            Console.WriteLine($"Domino: {d2}, IsDouble: Expected False, Actual: {d2.IsDouble()}");
-        }
+            Console.WriteLine("\n Test 6: Play Method Exception Handling ");
+            MexicanTrain mexicanTrain = new MexicanTrain(7);
+            Hand hand = new Hand();
 
-        static void TestDominoPropertySettersWithExceptions()
-        {
-            Console.WriteLine("\n--- Testing Domino Property Setters with Exceptions ---");
-            Domino d1 = new Domino(10, 10);
-            try
-            {
-                d1.Side1 = 13;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Console.WriteLine($"Setting Side1 to 13 threw exception: {ex.Message}");
-            }
-            try
-            {
-                d1.Side2 = -1;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Console.WriteLine($"Setting Side2 to -1 threw exception: {ex.Message}");
-            }
-        }
-
-        static void TestDominoComparison()
-        {
-            //Addition
-            Console.WriteLine("\n--- Testing Domino Comparison ---");
             Domino d1 = new Domino(1, 2);
-            Domino d2 = new Domino(2, 1);
+            hand.Add(d1);
+
+            Console.WriteLine($"Train: {mexicanTrain.ToString()}");
+            Console.WriteLine($"Hand: {hand.ToString()}");
+
+            try
+            {
+                Console.WriteLine($"Attempting to play [1|2] (not playable)...\n");
+                mexicanTrain.Play(hand, d1);
+                Console.WriteLine("Error: Play method did not throw an exception for unplayable domino.\n");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Caught expected exception: {ex.Message}\n");
+                Console.WriteLine($"Train after failed play (should be unchanged): {mexicanTrain.ToString()}\n");
+                Console.WriteLine($"Hand after failed play (should be unchanged): {hand.ToString()}\n");
+            }
+
+            Domino d2 = new Domino(7, 7);
+            hand.Add(d2);
+            Console.WriteLine($"\nHand with playable domino: {hand.ToString()}\n");
+            try
+            {
+                Console.WriteLine($"Attempting to play [7|7] (playable)...\n");
+                mexicanTrain.Play(hand, d2);
+                Console.WriteLine($"Successfully played [7|7]. Train: {mexicanTrain.ToString()}\n");
+                Console.WriteLine($"Hand after successful play: {hand.ToString()}\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: Play method threw unexpected exception for playable domino: {ex.Message}\n");
+            }
+        }
+
+        static void TestDominoSorting()
+        {
+            Console.WriteLine("\n Test 7: Domino Sorting (IComparable<Domino>) ");
+
+            List<Domino> dominos = new List<Domino>
+            {
+                new Domino(1, 2),
+                new Domino(6, 6),
+                new Domino(0, 0),
+                new Domino(3, 4),
+                new Domino(1, 1)
+            };
+
+            Console.WriteLine("Original list of dominos:");
+            foreach (var d in dominos)
+            {
+                Console.Write($"{d.ToString()} (Score: {d.Score}) ");
+            }
+            Console.WriteLine();
+
+            //CompareTo method
+            dominos.Sort();
+
+            Console.WriteLine("\nSorted list of dominos (by Score):");
+            foreach (var d in dominos)
+            {
+                Console.Write($"{d.ToString()} (Score: {d.Score}) ");
+            }
+            Console.WriteLine();
+
+            //Expected order: [0|0] (0), [1|1] (2), [1|2] (3), [3|4] (7), [6|6] (12)
+        }
+
+        static void TestTrainIteration()
+        {
+            Console.WriteLine("\n Test 8: Train Iteration (IEnumerable<Domino>) ");
+
+            MexicanTrain mexicanTrain = new MexicanTrain(12);
+            Hand hand = new Hand();
+            Domino d1 = new Domino(12, 5);
+            Domino d2 = new Domino(5, 3);
             Domino d3 = new Domino(3, 3);
-            Domino d4 = new Domino(1, 1);
 
-            Console.WriteLine($"{d1} == {d2}: Expected True, Actual: {d1 == d2}");
-            Console.WriteLine($"{d1} != {d3}: Expected True, Actual: {d1 != d3}");
-            Console.WriteLine($"{d1} == {d4}: Expected False, Actual: {d1 == d4}");
-        }
+            hand.Add(d1);
+            hand.Add(d2);
+            hand.Add(d3);
 
-        static void TestBoneyardConstructor()
-        {
-            Console.WriteLine("\n--- Testing Boneyard Constructor ---");
-            Boneyard b6 = new Boneyard(6);
-            Console.WriteLine($"NumDominos (maxDots=6): Expected 28, Actual: {b6.NumDominos}");
-            Console.WriteLine($"IsEmpty (maxDots=6): Expected False, Actual: {b6.IsEmpty}");
-            Console.WriteLine("ToString (first few dominoes for maxDots=6):\n" + b6.ToString().Substring(0, 100) + "..."); // Print a snippet
+            //[12|5]
+            mexicanTrain.Play(hand, d1);
+            //[12|5] [5|3]
+            mexicanTrain.Play(hand, d2);
+            //[12|5] [5|3] [3|3]
+            mexicanTrain.Play(hand, d3);
 
-            Console.WriteLine("\n--- Testing Boneyard Constructor (maxDots = 0) ---");
-            Boneyard b0 = new Boneyard(0);
-            Console.WriteLine($"NumDominos (maxDots=0): Expected 1, Actual: {b0.NumDominos}");
-            Console.WriteLine($"IsEmpty (maxDots=0): Expected False, Actual: {b0.IsEmpty}");
-            Console.WriteLine("ToString (maxDots=0):\n" + b0.ToString());
-        }
-
-        static void TestBoneyardShuffle()
-        //Randomization
-        {
-            Console.WriteLine("\n--- Testing Boneyard Shuffle ---");
-            Boneyard b = new Boneyard(6);
-            Console.WriteLine("Before shuffle (first domino): " + b[0]);
-            b.Shuffle();
-            Console.WriteLine("After shuffle (first domino - should be different): " + b[0]);
-        }
-
-        static void TestBoneyardDeal()
-        {
-            Console.WriteLine("\n--- Testing Boneyard Deal ---");
-            Boneyard b = new Boneyard(6);
-            int initialCount = b.NumDominos;
-            Domino dealtDomino = b.Deal();
-
-            Console.WriteLine($"Dealt Domino: {dealtDomino}");
-            Console.WriteLine($"NumDominos after deal: Expected {initialCount - 1}, Actual: {b.NumDominos}");
-            Console.WriteLine($"IsEmpty after deal: Expected False, Actual: {b.IsEmpty}");
-
-            while (!b.IsEmpty)
+            Console.WriteLine($"\nIterating through MexicanTrain: {mexicanTrain.ToString()}");
+            Console.Write("Dominos in train using foreach: ");
+            foreach (Domino d in mexicanTrain)
             {
-                b.Deal();
+                Console.Write($"{d.ToString()} ");
             }
-            Console.WriteLine($"\nDealt all dominos.");
-            Console.WriteLine($"NumDominos: Expected 0, Actual: {b.NumDominos}");
-            Console.WriteLine($"IsEmpty: Expected True, Actual: {b.IsEmpty}");
-            Console.WriteLine($"Attempt to deal from empty boneyard: Expected null, Actual: {b.Deal() == null}");
-        }
+            Console.WriteLine();
 
-        static void TestBoneyardIndexer()
-        {
-            Console.WriteLine("\n--- Testing Boneyard Indexer ---");
-            Boneyard b = new Boneyard(6);
-            Console.WriteLine($"Domino at index 0: {b[0]} (Expected [0|0])");
-            Console.WriteLine($"Domino at index 5: {b[5]} (Expected [0|5])");
+            PlayerTrain playerTrain = new PlayerTrain(new Hand(), 10);
+            Domino p1 = new Domino(10, 0);
+            Domino p2 = new Domino(0, 10);
+            playerTrain.Add(p1);
+            playerTrain.Add(p2);
 
-            Domino newDomino = new Domino(10, 10);
-            b[0] = newDomino;
-            Console.WriteLine($"Domino at index 0 after setting: {b[0]} (Expected [10|10])");
-
-            try
+            Console.WriteLine($"\nIterating through PlayerTrain: {playerTrain.ToString()}");
+            Console.Write("Dominos in train using foreach: ");
+            foreach (Domino d in playerTrain)
             {
-                Domino outOfRange = b[b.NumDominos];
+                Console.Write($"{d.ToString()} ");
             }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Console.WriteLine($"Accessing out-of-range index threw exception (get): {ex.Message}");
-            }
-
-            try
-            {
-                b[b.NumDominos] = new Domino(1, 1);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Console.WriteLine($"Setting out-of-range index threw exception (set): {ex.Message}");
-            }
+            Console.WriteLine();
         }
     }
 }
